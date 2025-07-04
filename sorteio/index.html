@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro no Sorteio</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <div class="container">
+    <!-- Etapa 1: Código -->
+    <div id="etapa1" class="etapa ativa">
+      <h1>Confirme seu código</h1>
+      <form id="formCodigo">
+        <input type="text" id="codigo" placeholder="Digite seu código" required>
+        <button type="submit">Avançar</button>
+      </form>
+      <p id="mensagemCodigo" class="mensagem"></p>
+    </div>
+
+    <!-- Etapa 2: Nome -->
+    <div id="etapa2" class="etapa">
+      <h1>Digite seu nome completo</h1>
+      <form id="formNome">
+        <input type="text" id="nome" placeholder="Nome completo" required>
+        <button type="submit">Avançar</button>
+      </form>
+    </div>
+
+    <!-- Etapa 3: Telefone -->
+    <div id="etapa3" class="etapa">
+      <h1>Digite seu telefone</h1>
+      <form id="formTelefone">
+        <input type="tel" id="telefone" placeholder="(XX) X XXXX-XXXX" required>
+        <button type="submit">Concluir Cadastro</button>
+      </form>
+    </div>
+
+    <!-- Etapa 4: Confirmação -->
+<div id="etapa4" class="etapa">
+  <h1>🎉 Cadastro concluído!</h1>
+  <p style="font-size: 16px; color: #333; margin-bottom: 20px;">
+    Toque no botão abaixo para garantir seu <strong>cupom, brinde ou condição especial</strong>!
+  </p>
+  <a id="btnInstagram" 
+     href="instagram://user?username=churrascariadommanoel"
+     style="display:inline-block; background:#E1306C; color:#fff; padding:15px 20px; border-radius:10px; font-size:18px; font-weight:bold; text-decoration:none; transition: all 0.3s;">
+     👉 Abrir no Instagram
+  </a>
+  <p style="font-size: 13px; color: #888; margin-top: 10px;">(Promoção válida por tempo limitado)</p>
+</div>
+
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseUrl = 'https://zbvirsjyvybhpusdnjxq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpidmlyc2p5dnliaHB1c2RuanhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUzNDI3OTcsImV4cCI6MjA2MDkxODc5N30.wTP6w7pyZNIWkhuvv2OMLx6kfnh5_-iice8q_141HUE';
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const etapas = document.querySelectorAll('.etapa');
+      const formCodigo = document.getElementById('formCodigo');
+      const formNome = document.getElementById('formNome');
+      const formTelefone = document.getElementById('formTelefone');
+      const codigoInput = document.getElementById('codigo');
+      const nomeInput = document.getElementById('nome');
+      const telefoneInput = document.getElementById('telefone');
+      const mensagemCodigo = document.getElementById('mensagemCodigo');
+      let codigoValido = '';
+
+      telefoneInput.addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        let formattedValue = '';
+        if (value.length > 0) formattedValue = '(' + value.substring(0, 2);
+        if (value.length > 2) formattedValue += ') ' + value.substring(2, 3);
+        if (value.length > 3) formattedValue += ' ' + value.substring(3, 7);
+        if (value.length > 7) formattedValue += '-' + value.substring(7, 11);
+        e.target.value = formattedValue;
+      });
+
+      codigoInput.addEventListener('input', function () {
+        this.value = this.value.toUpperCase();
+      });
+
+      nomeInput.addEventListener('input', function () {
+        this.value = this.value.toUpperCase();
+      });
+
+      formCodigo.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const codigo = codigoInput.value.trim();
+        try {
+          const { data, error } = await supabaseClient
+            .from('sorteio')
+            .select('nome, telefone')
+            .eq('codigo', codigo)
+            .maybeSingle();
+
+          if (error) throw error;
+
+          if (data) {
+            if (data.nome) {
+              mensagemCodigo.textContent = 'Código expirado, entre em contato com a loja.';
+            } else {
+              codigoValido = codigo;
+              mostrarEtapa(2);
+              mensagemCodigo.textContent = '';
+            }
+          } else {
+            mensagemCodigo.textContent = 'Código divergente.';
+          }
+        } catch (error) {
+          console.error('Erro ao verificar código:', error);
+          mensagemCodigo.textContent = 'Erro ao verificar código. Tente novamente.';
+        }
+      });
+
+      formNome.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (nomeInput.value.trim() === '') {
+          alert('Por favor, digite seu nome completo.');
+          return;
+        }
+        mostrarEtapa(3);
+      });
+
+      formTelefone.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const telefone = telefoneInput.value.replace(/\D/g, '');
+        if (telefone.length !== 11) {
+          alert('Por favor, digite um telefone válido com 11 dígitos.');
+          return;
+        }
+
+        try {
+          const cadastramento = new Date().toISOString();
+          const { error } = await supabaseClient
+            .from('sorteio')
+            .update({
+              nome: nomeInput.value.trim(),
+              telefone: telefone,
+              cadastramento: cadastramento
+            })
+            .eq('codigo', codigoValido);
+
+          if (error) throw error;
+
+          mostrarEtapa(4);
+
+          
+
+
+        } catch (error) {
+          console.error('Erro ao enviar dados:', error);
+          alert('Erro ao enviar dados. Tente novamente.');
+        }
+      });
+
+      function mostrarEtapa(numero) {
+        etapas.forEach(etapa => etapa.classList.remove('ativa'));
+        document.getElementById(`etapa${numero}`).classList.add('ativa');
+      }
+    });
+    document.getElementById('btnInstagram').addEventListener('click', function (e) {
+  setTimeout(() => {
+    window.location.href = 'https://www.instagram.com/churrascariadommanoel';
+  }, 1500);
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #FFCC99, #FFE6CC);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+  border-top: 10px solid #4A3119;
+}
+
+h1 {
+  color: #4A3119;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border: 2px solid #4A3119;
+  border-radius: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #FFF5E6;
+  color: #4A3119;
+  font-weight: 500;
+}
+
+input:focus {
+  outline: none;
+  border-color: #FFB366;
+  background-color: #FFEBD6;
+}
+
+button, #btnInstagram {
+  background-color: #4A3119;
+  color: #FFCC99;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  width: 100%;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, #btnInstagram:hover {
+  background-color: #3A2410;
+  transform: scale(1.03);
+}
+
+.mensagem {
+  color: #D9534F;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.etapa {
+  display: none;
+}
+
+.etapa.ativa {
+  display: block;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+p {
+  color: #4A3119;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.subinfo {
+  font-size: 13px;
+  color: #8C6B4A;
+  margin-top: 10px;
+}
+
+#btnInstagram {
+  margin-top: 20px;
+  background-color: #E96F00;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  animation: pulse 1.8s infinite;
+  padding: 16px 24px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(233, 111, 0, 0.5); }
+  70% { box-shadow: 0 0 0 12px rgba(233, 111, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(233, 111, 0, 0); }
+}
