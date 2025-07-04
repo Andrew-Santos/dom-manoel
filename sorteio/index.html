@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cadastro no Sorteio</title>
   <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
   <div class="container">
@@ -38,137 +37,250 @@
     </div>
 
     <!-- Etapa 4: Confirmação -->
-<div id="etapa4" class="etapa">
-  <h1>🎉 Cadastro concluído!</h1>
-  <p style="font-size: 16px; color: #333; margin-bottom: 20px;">
-    Toque no botão abaixo para garantir seu <strong>cupom, brinde ou condição especial</strong>!
-  </p>
-  <a id="btnInstagram" 
-     href="instagram://user?username=churrascariadommanoel"
-     style="display:inline-block; background:#E1306C; color:#fff; padding:15px 20px; border-radius:10px; font-size:18px; font-weight:bold; text-decoration:none; transition: all 0.3s;">
-     👉 Abrir no Instagram
-  </a>
-  <p style="font-size: 13px; color: #888; margin-top: 10px;">(Promoção válida por tempo limitado)</p>
-</div>
-
+    <div id="etapa4" class="etapa">
+      <h1>🎉 Cadastro concluído!</h1>
+      <p style="font-size: 16px; color: #333; margin-bottom: 20px;">
+        Toque no botão abaixo para garantir seu <strong>cupom, brinde ou condição especial</strong>!
+      </p>
+      <a id="btnInstagram" 
+         href="instagram://user?username=churrascariadommanoel"
+         style="display:inline-block; background:#E1306C; color:#fff; padding:15px 20px; border-radius:10px; font-size:18px; font-weight:bold; text-decoration:none; transition: all 0.3s;">
+         👉 Abrir no Instagram
+      </a>
+      <p style="font-size: 13px; color: #888; margin-top: 10px;">(Promoção válida por tempo limitado)</p>
+    </div>
   </div>
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script>
-    const supabaseUrl = 'https://zbvirsjyvybhpusdnjxq.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpidmlyc2p5dnliaHB1c2RuanhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUzNDI3OTcsImV4cCI6MjA2MDkxODc5N30.wTP6w7pyZNIWkhuvv2OMLx6kfnh5_-iice8q_141HUE';
-    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+  console.log('Script iniciado');
+  
+  const supabaseUrl = 'https://zbvirsjyvybhpusdnjxq.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpidmlyc2p5dnliaHB1c2RuanhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUzNDI3OTcsImV4cCI6MjA2MDkxODc5N30.wTP6w7pyZNIWkhuvv2OMLx6kfnh5_-iice8q_141HUE';
+  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const etapas = document.querySelectorAll('.etapa');
-      const formCodigo = document.getElementById('formCodigo');
-      const formNome = document.getElementById('formNome');
-      const formTelefone = document.getElementById('formTelefone');
-      const codigoInput = document.getElementById('codigo');
-      const nomeInput = document.getElementById('nome');
-      const telefoneInput = document.getElementById('telefone');
-      const mensagemCodigo = document.getElementById('mensagemCodigo');
-      let codigoValido = '';
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOM completamente carregado');
+    
+    const etapas = document.querySelectorAll('.etapa');
+    const formCodigo = document.getElementById('formCodigo');
+    const formNome = document.getElementById('formNome');
+    const formTelefone = document.getElementById('formTelefone');
+    const codigoInput = document.getElementById('codigo');
+    const nomeInput = document.getElementById('nome');
+    const telefoneInput = document.getElementById('telefone');
+    const mensagemCodigo = document.getElementById('mensagemCodigo');
+    let codigoValido = '';
 
-      telefoneInput.addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        let formattedValue = '';
-        if (value.length > 0) formattedValue = '(' + value.substring(0, 2);
-        if (value.length > 2) formattedValue += ') ' + value.substring(2, 3);
-        if (value.length > 3) formattedValue += ' ' + value.substring(3, 7);
-        if (value.length > 7) formattedValue += '-' + value.substring(7, 11);
-        e.target.value = formattedValue;
+    console.log('Elementos DOM carregados:', {
+      etapas, formCodigo, formNome, formTelefone, 
+      codigoInput, nomeInput, telefoneInput, mensagemCodigo
+    });
+
+    // Máscara telefone
+    telefoneInput.addEventListener('input', function (e) {
+      console.log('Input de telefone alterado:', e.target.value);
+      let value = e.target.value.replace(/\D/g, '');
+      let formattedValue = '';
+      if (value.length > 0) formattedValue = '(' + value.substring(0, 2);
+      if (value.length > 2) formattedValue += ') ' + value.substring(2, 3);
+      if (value.length > 3) formattedValue += ' ' + value.substring(3, 7);
+      if (value.length > 7) formattedValue += '-' + value.substring(7, 11);
+      e.target.value = formattedValue;
+      console.log('Telefone formatado:', e.target.value);
+    });
+
+    // Forçar uppercase nos inputs
+    codigoInput.addEventListener('input', function () {
+      console.log('Input de código alterado (antes):', this.value);
+      this.value = this.value.toUpperCase();
+      console.log('Input de código alterado (depois):', this.value);
+    });
+    
+    nomeInput.addEventListener('input', function () {
+      console.log('Input de nome alterado (antes):', this.value);
+      this.value = this.value.toUpperCase();
+      console.log('Input de nome alterado (depois):', this.value);
+    });
+
+    // Função para mostrar a etapa correta
+    function mostrarEtapa(numero) {
+      console.log(`Mostrando etapa ${numero}`);
+      etapas.forEach(etapa => {
+        console.log(`Etapa ${etapa.id} - classe atual:`, etapa.classList.toString());
+        etapa.classList.remove('ativa');
       });
+      const etapaAtiva = document.getElementById(`etapa${numero}`);
+      etapaAtiva.classList.add('ativa');
+      console.log(`Etapa ${etapaAtiva.id} - nova classe:`, etapaAtiva.classList.toString());
+    }
 
-      codigoInput.addEventListener('input', function () {
-        this.value = this.value.toUpperCase();
-      });
+    // Valida código e avança etapas
+    async function validarCodigo(codigo, mostrarErro = true) {
+      console.log(`Validando código: ${codigo}, mostrarErro: ${mostrarErro}`);
+      
+      try {
+        console.log('Iniciando consulta ao Supabase...');
+        const { data, error } = await supabaseClient
+          .from('sorteio')
+          .select('nome, telefone')
+          .eq('codigo', codigo)
+          .maybeSingle();
 
-      nomeInput.addEventListener('input', function () {
-        this.value = this.value.toUpperCase();
-      });
+        console.log('Resposta do Supabase:', { data, error });
 
-      formCodigo.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const codigo = codigoInput.value.trim();
-        try {
-          const { data, error } = await supabaseClient
-            .from('sorteio')
-            .select('nome, telefone')
-            .eq('codigo', codigo)
-            .maybeSingle();
+        if (error) {
+          console.error('Erro do Supabase:', error);
+          throw error;
+        }
 
-          if (error) throw error;
-
-          if (data) {
-            if (data.nome) {
+        if (data) {
+          if (data.nome) {
+            console.log('Código já utilizado');
+            if(mostrarErro) {
               mensagemCodigo.textContent = 'Código expirado, entre em contato com a loja.';
-            } else {
-              codigoValido = codigo;
-              mostrarEtapa(2);
-              mensagemCodigo.textContent = '';
+              console.log('Mensagem de erro exibida');
             }
+            return false;
           } else {
-            mensagemCodigo.textContent = 'Código divergente.';
+            console.log('Código válido e não utilizado');
+            codigoValido = codigo;
+            mostrarEtapa(2);
+            mensagemCodigo.textContent = '';
+            return true;
           }
-        } catch (error) {
-          console.error('Erro ao verificar código:', error);
+        } else {
+          console.log('Código não encontrado');
+          if(mostrarErro) {
+            mensagemCodigo.textContent = 'Código divergente.';
+            console.log('Mensagem de erro exibida');
+          }
+          return false;
+        }
+      } catch (error) {
+        console.error('Erro ao validar código:', error);
+        if(mostrarErro) {
           mensagemCodigo.textContent = 'Erro ao verificar código. Tente novamente.';
+          console.log('Mensagem de erro exibida');
         }
-      });
+        return false;
+      }
+    }
 
-      formNome.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (nomeInput.value.trim() === '') {
-          alert('Por favor, digite seu nome completo.');
-          return;
-        }
-        mostrarEtapa(3);
-      });
+    // Tratamento do submit do código
+    formCodigo.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const codigo = codigoInput.value.trim();
+      console.log('Formulário de código submetido:', codigo);
+      
+      if(codigo === '') {
+        console.log('Código vazio');
+        mensagemCodigo.textContent = 'Digite seu código.';
+        return;
+      }
+      
+      await validarCodigo(codigo);
+    });
 
-      formTelefone.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const telefone = telefoneInput.value.replace(/\D/g, '');
-        if (telefone.length !== 11) {
-          alert('Por favor, digite um telefone válido com 11 dígitos.');
-          return;
-        }
+    // Avança para etapa 3 (nome)
+    formNome.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nome = nomeInput.value.trim();
+      console.log('Formulário de nome submetido:', nome);
+      
+      if (nome === '') {
+        console.log('Nome vazio');
+        alert('Por favor, digite seu nome completo.');
+        return;
+      }
+      
+      mostrarEtapa(3);
+    });
 
-        try {
-          const cadastramento = new Date().toISOString();
-          const { error } = await supabaseClient
-            .from('sorteio')
-            .update({
-              nome: nomeInput.value.trim(),
-              telefone: telefone,
-              cadastramento: cadastramento
-            })
-            .eq('codigo', codigoValido);
+    // Envia telefone e conclui cadastro
+    formTelefone.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const telefone = telefoneInput.value.replace(/\D/g, '');
+      console.log('Formulário de telefone submetido:', telefone);
+      
+      if (telefone.length !== 11) {
+        console.log('Telefone inválido');
+        alert('Por favor, digite um telefone válido com 11 dígitos.');
+        return;
+      }
+      
+      try {
+        console.log('Enviando dados para o Supabase...');
+        const cadastramento = new Date().toISOString();
+        const { error } = await supabaseClient
+          .from('sorteio')
+          .update({
+            nome: nomeInput.value.trim(),
+            telefone: telefone,
+            cadastramento: cadastramento
+          })
+          .eq('codigo', codigoValido);
 
-          if (error) throw error;
+        console.log('Resposta do Supabase:', { error });
 
-          mostrarEtapa(4);
+        if (error) throw error;
 
-          
-
-
-        } catch (error) {
-          console.error('Erro ao enviar dados:', error);
-          alert('Erro ao enviar dados. Tente novamente.');
-        }
-      });
-
-      function mostrarEtapa(numero) {
-        etapas.forEach(etapa => etapa.classList.remove('ativa'));
-        document.getElementById(`etapa${numero}`).classList.add('ativa');
+        console.log('Cadastro concluído com sucesso');
+        mostrarEtapa(4);
+      } catch (error) {
+        console.error('Erro ao enviar dados:', error);
+        alert('Erro ao enviar dados. Tente novamente.');
       }
     });
-    document.getElementById('btnInstagram').addEventListener('click', function (e) {
-  setTimeout(() => {
-    window.location.href = 'https://www.instagram.com/churrascariadommanoel';
-  }, 1500);
-});
 
-  </script>
+    // Botão Instagram
+    document.getElementById('btnInstagram').addEventListener('click', function () {
+      console.log('Botão Instagram clicado');
+      setTimeout(() => {
+        window.location.href = 'https://www.instagram.com/churrascariadommanoel';
+      }, 1500);
+    });
+
+    // Início - preenche código da URL e tenta validar e pular etapa 1 se possível
+    (async function init() {
+      console.log('Iniciando função init()');
+      
+      const params = new URLSearchParams(window.location.search);
+      const codigoUrl = params.get('codigo');
+      console.log('Código da URL:', codigoUrl);
+      
+      if (codigoUrl) {
+        console.log('Código encontrado na URL');
+        const codigoUpper = codigoUrl.toUpperCase();
+        console.log('Código em maiúsculas:', codigoUpper);
+        
+        codigoInput.value = codigoUpper;
+        console.log('Valor do input de código definido:', codigoInput.value);
+        
+        // Dispara eventos para garantir formatação
+        const inputEvent = new Event('input', { bubbles: true });
+        codigoInput.dispatchEvent(inputEvent);
+        console.log('Evento de input disparado');
+        
+        // Aguarda um pouco para garantir que o valor foi setado
+        await new Promise(resolve => setTimeout(resolve, 100));
+        console.log('Delay de 100ms concluído');
+        
+        // Valida o código sem mostrar mensagens de erro
+        console.log('Validando código automaticamente...');
+        const valido = await validarCodigo(codigoUpper, false);
+        console.log('Resultado da validação:', valido);
+        
+        if (!valido) {
+          console.log('Código inválido, mostrando etapa 1');
+          mostrarEtapa(1);
+        }
+      } else {
+        console.log('Nenhum código na URL, mostrando etapa 1');
+        mostrarEtapa(1);
+      }
+    })();
+  });
+</script>
 </body>
 </html>
