@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600;700&display=swap');
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background-color: #0e0e0e;
+  color: #f1f1f1;
+}
+
+
+#bgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  z-index: 1;
+  overflow: hidden;
+}
+
+#bgVideo video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.container {
+  position: relative;
+  margin: auto;
+  top: 20%;
+  background-color: rgba(20, 20, 20, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  width: 80%;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 2;
+  animation: fadeIn 0.6s ease-out;
+  max-width: 500px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transition: border-color 0.3s, background-color 0.3s;
+  text-align: center;
+}
+
+input::placeholder {
+  color: #cccccc;
+  text-align: ce;
+}
+
+input:focus {
+  outline: none;
+  border-color: #6366f1;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+button,
+#btnInstagram {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #6366f1;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+button:hover,
+#btnInstagram:hover {
+  background-color: #4f46e5;
+  transform: scale(1.02);
+}
+
+#btnInstagram {
+  margin-top: 20px;
+  animation: pulse 1.8s infinite;
+}
+
+.mensagem {
+  color: #f87171;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+p {
+  color: #e0e0e0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.etapa {
+  display: none;
+}
+
+.etapa.ativa {
+  display: block;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
