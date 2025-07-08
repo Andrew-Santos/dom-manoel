@@ -146,9 +146,24 @@
           if (data.nome) {
             console.log('Código já utilizado');
             if(mostrarErro) {
-              mensagemCodigo.textContent = 'Código expirado, entre em contato com a loja.';
-              console.log('Mensagem de erro exibida');
-            }
+              mensagemCodigo.textContent = 'Código EXPIRADO, entre em contato com a loja e saiba mais.';
+              const formWrapper = document.getElementById('form-wrapper');
+
+              // Adiciona classe de tremor
+              formWrapper.classList.add('shake');
+
+              // Vibra no celular (se suportado)
+              if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200]); // vibra 200ms, pausa 100ms, vibra 200ms
+              }
+
+              // Remove a classe após a animação terminar (300ms)
+              setTimeout(() => {
+                formWrapper.classList.remove('shake');
+              }, 300);
+
+                console.log('Mensagem de erro exibida');
+              }
             return false;
           } else {
             console.log('Código válido e não utilizado');
@@ -160,7 +175,7 @@
         } else {
           console.log('Código não encontrado');
           if(mostrarErro) {
-            mensagemCodigo.textContent = 'Código divergente.';
+            mensagemCodigo.textContent = 'Código divergente, corrija-o ou solicite um novo.';
             const formWrapper = document.getElementById('form-wrapper');
 
             // Adiciona classe de tremor
