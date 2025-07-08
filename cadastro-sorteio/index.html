@@ -12,7 +12,7 @@
     <video  autoplay muted loop playsinline src="background.mp4"></video>
   </div>
 
-  <div class="container">
+  <div class="container" id="form-wrapper">
     <!-- Etapa 1: Código -->
     <div id="etapa1" class="etapa ativa">
       <img src="logo dom manoel.png" id="logo-dommanoel" alt="">
@@ -48,7 +48,7 @@
     <div id="etapa4" class="etapa">
       <h1>🎉 Cadastro concluído!</h1>
       <p style="font-size: 16px; color: #888888; margin-bottom: 20px;">
-        Toque no botão abaixo para garantir seu <strong>cupom, brinde ou condição especial</strong>!
+        Toque no botão abaixo para garantir seu <strong>cupom</strong>, seguindo-nos no instagram!
       </p>
       <a id="btnInstagram" 
          href="instagram://user?username=churrascariadommanoel"
@@ -161,6 +161,21 @@
           console.log('Código não encontrado');
           if(mostrarErro) {
             mensagemCodigo.textContent = 'Código divergente.';
+            const formWrapper = document.getElementById('form-wrapper');
+
+            // Adiciona classe de tremor
+            formWrapper.classList.add('shake');
+
+            // Vibra no celular (se suportado)
+            if (navigator.vibrate) {
+              navigator.vibrate([200, 100, 200]); // vibra 200ms, pausa 100ms, vibra 200ms
+            }
+
+            // Remove a classe após a animação terminar (300ms)
+            setTimeout(() => {
+              formWrapper.classList.remove('shake');
+            }, 300);
+
             console.log('Mensagem de erro exibida');
           }
           return false;
