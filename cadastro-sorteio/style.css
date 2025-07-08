@@ -54,6 +54,14 @@ html, body {
   max-width: 500px;
 }
 
+#logo-dommanoel{
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 100%;
+  opacity: 0.8;
+}
+
 h1 {
   font-size: 24px;
   color: #ffffff;
