@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consulta de Cadastros</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="logo dom manoel.png" type="image/x-icon">
+</head>
+<body>
+  <div id="bgVideo">
+    <video autoplay muted loop playsinline src="background.mp4"></video>
+  </div>
+
+  <div class="container" id="consulta-wrapper">
+    <img src="logo dom manoel.png" id="logo-dommanoel" alt="">
+    <h1>Consultar Cadastros</h1>
+    <form id="consultaForm">
+      <input type="tel" id="consultaTelefone" placeholder="Digite seu telefone" required>
+      <button type="submit">Consultar</button>
+    </form>
+    <p id="resultadoConsulta" class="mensagem"></p>
+  </div>
+
+  <footer>
+    <p>
+      © 2025 <a href="https://www.teamcriativa.com/">Agência Criativa</a> - Soluções para o seu negócio.
+    </p>
+  </footer>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseUrl = 'https://zbvirsjyvybhpusdnjxq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpidmlyc2p5dnliaHB1c2RuanhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUzNDI3OTcsImV4cCI6MjA2MDkxODc5N30.wTP6w7pyZNIWkhuvv2OMLx6kfnh5_-iice8q_141HUE';
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+    document.getElementById('consultaForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const telefone = document.getElementById('consultaTelefone').value.replace(/\D/g, '');
+
+      if (telefone.length !== 11) {
+        document.getElementById('resultadoConsulta').textContent = 'Digite um telefone válido com 11 dígitos.';
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from('sorteio')
+        .select('id')
+        .eq('telefone', telefone);
+
+      if (error) {
+        document.getElementById('resultadoConsulta').textContent = 'Erro ao consultar. Tente novamente.';
+        return;
+      }
+
+      const total = data.length;
+      document.getElementById('resultadoConsulta').textContent = `Este número foi cadastrado ${total} vez(es) no sorteio.`;
+    });
+  </script>
+  <script>
+  const telInput = document.getElementById('consultaTelefone');
+
+  telInput.addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let formatted = '';
+
+    if (value.length > 0) formatted = '(' + value.substring(0, 2);
+    if (value.length > 2) formatted += ') ' + value.substring(2, 3);
+    if (value.length > 3) formatted += ' ' + value.substring(3, 7);
+    if (value.length > 7) formatted += '-' + value.substring(7, 11);
+
+    e.target.value = formatted;
+  });
+</script>
+
+
+  <script src="https://www.teamcriativa.com/SCRIPTS/preloader.js"></script>
+  <script src="https://www.teamcriativa.com/SCRIPTS/logo.js"></script>
+  <script src="https://www.teamcriativa.com/SCRIPTS/fonts-and-resets.js"></script>
+</body>
+</html>
